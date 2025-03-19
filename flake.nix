@@ -16,6 +16,11 @@
     }:
     let
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      treefmt =
+        pkgs:
+        treefmt-nix.lib.evalModule pkgs {
+          programs.nixfmt.enable = true;
+        };
     in
     {
       packages = eachSystem (
@@ -24,11 +29,9 @@
           builtins.readDir ./pkgs
         )
       );
-      formatter = eachSystem (
-        pkgs:
-        treefmt-nix.lib.mkWrapper pkgs {
-          programs.nixfmt.enable = true;
-        }
-      );
+      formatter = eachSystem (pkgs: (treefmt pkgs).config.build.wrapper);
+      checks = eachSystem (pkgs: {
+        formatting = (treefmt pkgs).config.build.check self;
+      });
     };
 }
