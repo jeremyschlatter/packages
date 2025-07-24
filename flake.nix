@@ -6,32 +6,31 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    flake-utils.url = "github:numtide/flake-utils";
   };
   outputs =
     {
       self,
       nixpkgs,
-      systems,
       treefmt-nix,
+      flake-utils,
     }:
-    let
-      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
-      treefmt =
-        pkgs:
-        treefmt-nix.lib.evalModule pkgs {
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        treefmt = treefmt-nix.lib.evalModule pkgs {
           programs.nixfmt.enable = true;
         };
-    in
-    {
-      packages = eachSystem (
-        pkgs:
-        pkgs.lib.mapAttrs (name: _: pkgs.callPackage ./pkgs/${name}/package.nix { }) (
+      in
+      {
+        packages = pkgs.lib.mapAttrs (name: _: pkgs.callPackage ./pkgs/${name}/package.nix { }) (
           builtins.readDir ./pkgs
-        )
-      );
-      formatter = eachSystem (pkgs: (treefmt pkgs).config.build.wrapper);
-      checks = eachSystem (pkgs: {
-        formatting = (treefmt pkgs).config.build.check self;
-      });
-    };
+        );
+        formatter = treefmt.config.build.wrapper;
+        checks = {
+          formatting = treefmt.config.build.check self;
+        };
+      }
+    );
 }
