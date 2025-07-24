@@ -24,7 +24,7 @@
         };
       in
       {
-        packages = pkgs.lib.mapAttrs (name: _: pkgs.callPackage ./pkgs/${name}/package.nix { }) (
+        packages = builtins.mapAttrs (name: _: pkgs.callPackage ./pkgs/${name}/package.nix { }) (
           builtins.readDir ./pkgs
         );
         formatter = treefmt.config.build.wrapper;
