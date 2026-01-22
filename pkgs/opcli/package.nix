@@ -11,7 +11,7 @@ buildGoModule {
   src = fetchFromGitHub {
     owner = "jeremyschlatter";
     repo = "opcli";
-    rev = "main";
+    rev = "da1a5e92d2a6cc17e496fb7811877eb34d592929";
     hash = "sha256-I+02Ze5RSzfHDqOCp0UjDp+DgS29+TQpnMuqcE7eg+c=";
   };
 
