@@ -1,26 +1,34 @@
 {
   lib,
-  buildGoModule,
-  fetchFromGitHub,
+  stdenv,
+  fetchurl,
 }:
 
-buildGoModule {
-  pname = "opcli";
-  version = "0.1.0";
+let
+  version = "0.1.1";
+  arch = if stdenv.hostPlatform.isAarch64 then "arm64" else "x86_64";
+in
 
-  src = fetchFromGitHub {
-    owner = "jeremyschlatter";
-    repo = "opcli";
-    rev = "da1a5e92d2a6cc17e496fb7811877eb34d592929";
-    hash = "sha256-I+02Ze5RSzfHDqOCp0UjDp+DgS29+TQpnMuqcE7eg+c=";
+stdenv.mkDerivation {
+  pname = "opcli";
+  inherit version;
+
+  src = fetchurl {
+    url = "https://github.com/jeremyschlatter/opcli/releases/download/v${version}/opcli-v${version}-darwin-${arch}.tar.gz";
+    hash = "sha256-O8KRtowyU/2sVNhF9mLoRb3YO4dYw5J6CP/pwNGU5bU=";
   };
 
-  vendorHash = "sha256-rI2NVwv6GHue1NpRPVDvH6Tp5bx+p76HBpCkCQjgeQU=";
+  sourceRoot = ".";
+
+  installPhase = ''
+    install -Dm755 opcli $out/bin/opcli
+  '';
 
   meta = with lib; {
     description = "Fast 1Password CLI - 23x faster than official op CLI";
     homepage = "https://github.com/jeremyschlatter/opcli";
     license = licenses.mit;
     mainProgram = "opcli";
+    platforms = platforms.darwin;
   };
 }
