@@ -20,6 +20,9 @@ stdenv.mkDerivation {
 
   sourceRoot = ".";
 
+  # Preserve the code signature from the release binary
+  dontFixup = true;
+
   installPhase = ''
     install -Dm755 opcli $out/bin/opcli
   '';
