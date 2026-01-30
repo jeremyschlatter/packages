@@ -28,7 +28,7 @@ stdenv.mkDerivation {
   '';
 
   meta = with lib; {
-    description = "Fast 1Password CLI - 23x faster than official op CLI";
+    description = "Fast 1Password CLI";
     homepage = "https://github.com/jeremyschlatter/opcli";
     license = licenses.mit;
     mainProgram = "opcli";
