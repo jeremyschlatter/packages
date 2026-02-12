@@ -7,13 +7,13 @@
 
 rustPlatform.buildRustPackage {
   pname = "claude-bash-hook";
-  version = "0.2.1-macos.1";
+  version = "0.2.1-macos.2";
 
   src = fetchFromGitHub {
     owner = "jeremyschlatter";
     repo = "claude-bash-hook";
-    rev = "v0.2.1-macos.1";
-    hash = "sha256-TxRVKUkC9e9CHkqyPe7lcWyyzauMWFf8PILnDayDguY=";
+    rev = "0fac1d8";
+    hash = "sha256-SsQmln0qfjPLU5kHA0pw1ifnmkDXxWIWpUT9io+TcSA=";
   };
 
   cargoHash = "sha256-LrTRAGQVsR2CBygOrBM29MyxUDduW7lDlCOv5uDfWJg=";
