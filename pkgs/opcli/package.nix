@@ -15,7 +15,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://github.com/jeremyschlatter/opcli/releases/download/v${version}/opcli-v${version}-darwin-${arch}.tar.gz";
-    hash = "sha256-tziLEWyvWHwfPcTaAH6018ltpJwo91c2FvGOPrkI60M=";
+    hash = "sha256-olqinDxEWUiDnSl2aSRPwSEDdVCk5liB4B7BYfddbUc=";
   };
 
   sourceRoot = ".";
